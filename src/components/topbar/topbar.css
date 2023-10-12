@@ -1,0 +1,134 @@
+.topBar{
+    display: flex;
+    margin-left: 0px;
+    padding: 0px;
+    height: 50px;
+    background-color: #30BCED;
+    position: sticky;
+    top: 0;
+}
+.topBarLeft{
+    flex: 3;
+    /* padding: 5px;
+    margin-left: 20px; */
+    font-size: 30px;
+    font-weight: 900;
+    text-align: center;
+}
+.topBarCenter{
+    flex: 5;
+    display: flex;
+    justify-content: center;
+}
+.topBarRight{flex: 4;
+    display: flex;
+        justify-content: space-between;
+}
+.siteIdentity{
+display: flex;
+justify-content: start;
+cursor: pointer;
+background: linear-gradient(28deg, #000000 0%, rgba(255, 0, 0, 0.4) 40%, rgba(0, 233, 255, 0.17) 80%);
+-webkit-text-fill-color: transparent;
+-webkit-background-clip: text;
+background-clip: text;
+}
+.siteIdentity img{
+    width: 50px;
+    height: 50px;
+}
+ .search{
+    background-color: white;
+    display: flex;
+    justify-content: start;
+    height:65%;
+    width: 90%;
+    border-radius: 30px;
+    align-items: center;
+    margin-top: 5px;
+    min-width: 25%;
+    box-shadow: 1px 1px 90px -5px rgba(0, 0, 0, 0.97);
+ }
+ .searchInput{
+    border: 0px solid;
+    width: 90%;
+    margin-left:10px;
+ }
+ .searchIcon{
+    padding: 5px;
+    font-size: 30px !important;
+ }
+ .searchInput:focus {
+     outline: none !important;
+     
+ }
+
+ .friendBadge, .messageBadge, .infoBadge{
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    color: white;
+    font-size: 15px;
+    font-weight:900;
+    /* padding: 3px; */
+    position: absolute;
+    top: 0;
+    right: -5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+ }
+ .topBarRightNav{
+    display: flex;
+    justify-content: start;
+    list-style: none;
+ }
+ .topNavLinks{
+    margin: 0px 10px;
+    font-weight: 900;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    
+ }
+ .topBarNotifications{
+    display: flex;
+    align-items: center;
+    list-style: none;
+    justify-content: space-between;
+ }
+ .separators{
+    color: white;
+    cursor: none;
+ }
+ .topBarNotificationsitem{
+    margin-right: 10px ;
+    position: relative;
+    cursor: pointer;
+ }
+ .topBarNotificationsIcons{
+    font-size: 30px !important;
+ }
+ .profileWrapper{
+    display: flex;
+    align-items: center;
+    
+ }
+ .topBarRightProfilePic{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 1px 1px 90px 34px rgba(255, 255, 255, 0.97);
+        -webkit-box-shadow: 1px 1px 90px 34px rgba(255, 255, 255, 0.97);
+        -moz-box-shadow: 1px 1px 90px 34px rgba(255, 255, 255, 0.97);
+ }
+ 
