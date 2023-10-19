@@ -6,27 +6,14 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemButton,
-  ListItemIcon,
   ListItemText,
   Paper,
   Typography,
 } from "@mui/material";
 import React from "react";
-import { purple } from "@mui/material/colors";
-import {
-  BookmarkAddOutlined,
-  CalendarMonthOutlined,
-  Groups2Outlined,
-  Mail,
-  MailOutline,
-  OndemandVideo,
-  OndemandVideoOutlined,
-  Person2Outlined,
-  ShoppingBagOutlined,
-} from "@mui/icons-material";
 import { styled } from "@mui/system";
 import { indigo } from "@mui/material/colors";
+import MenuList from "./MenuList";
 
 const SideBarHolder = styled(Box)(({ theme }) => ({
   backgroundColor: "primaryText.main",
@@ -59,27 +46,9 @@ const SideListItem = styled(ListItem)(({ theme }) => ({
 }));
 
 function SideBar() {
-  const sideList = {
-    People: <Person2Outlined />,
-    Inbox: <MailOutline />,
-    Videos: <OndemandVideoOutlined />,
-    Events: <CalendarMonthOutlined />,
-    Groups: <Groups2Outlined />,
-    Shopping: <ShoppingBagOutlined />,
-    Saved: <BookmarkAddOutlined />,
-  };
   return (
     <SideBarHolder sx={{ display: { xs: "none", md: "inline-block" } }}>
-      <List dense>
-        {Object.entries(sideList).map((entry) => (
-          <SideListItem divider>
-            <ListItemButton>
-              <ListItemIcon>{entry[1]}</ListItemIcon>
-              <ListItemText primary={entry[0]}></ListItemText>
-            </ListItemButton>
-          </SideListItem>
-        ))}
-      </List>
+      <MenuList />
       <Divider sx={{ color: "primaryText.main" }} />
       <Paper
         elevation={9}

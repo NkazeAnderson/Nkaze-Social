@@ -6,6 +6,9 @@ import {
   Search,
   // Menu,
   Close,
+  Settings,
+  Login,
+  Logout,
 } from "@mui/icons-material";
 
 import MenuIcon from "@mui/icons-material/Menu";
@@ -33,9 +36,11 @@ import {
   ListItemText,
   ListItemSecondaryAction,
   InputBase,
+  ListItemAvatar,
 } from "@mui/material";
 import React, { useState } from "react";
 import IconButton from "@mui/material/IconButton";
+import MenuList from "./MenuList";
 
 const Logo = styled("img")({
   width: 50,
@@ -151,12 +156,24 @@ function TopBar() {
                   <Notifications fontSize="27" color="primaryText" />
                 </Badge>
               </IconButton>
-              <Avatar color="secondary" src="/images/profile-1.jpg">
-                P
-              </Avatar>
+              <IconButton
+                onClick={handleProfileMenuClick}
+                aria-controls={"profileMenu"}
+                aria-haspopup="true"
+                aria-expanded={profileMenuEl ? "true" : undefined}
+              >
+                <Avatar
+                  id="profileButton"
+                  color="secondary"
+                  src="/images/profile-1.jpg"
+                >
+                  P
+                </Avatar>
+              </IconButton>
             </Stack>
           </Box>
         </Stack>
+        {/* Mobile Menu */}
         <Grid
           container
           sx={{ display: { xs: "flex", md: "none" } }}
@@ -204,6 +221,7 @@ function TopBar() {
           </Grid>
         </Grid>
       </AppBar>
+      {/* Mobile Drawer */}
       <Drawer
         variant="temporary"
         anchor="left"
@@ -213,67 +231,70 @@ function TopBar() {
         <Stack sx={{ backgroundColor: "primary.main", width: "100%", mt: 1 }}>
           <IconButton aria-label="" onClick={handleMobileMenuClose} pt={4}>
             <Close
-              sx={{ backgroundColor: "primaryText.main", borderRadius: "50%" }}
+              sx={{ backgroundColor: "secondary.light", borderRadius: "50%" }}
             />
           </IconButton>
         </Stack>
         <Divider />
-        <List dense>
-          <ListItem color="primary">
-            <ListItemButton alignItems="center">
-              <StlyedListItemIcon>
-                <Home color="primary" />
-              </StlyedListItemIcon>
-
-              <ListItemText
-                primary="Home"
-                primaryTypographyProps={{
-                  color: "primary",
-                  fontWeight: "medium",
-                  variant: "body1",
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-          <ListItem color="primary">
-            <ListItemButton alignItems="center">
-              <StlyedListItemIcon>
-                <Home color="primary" />
-              </StlyedListItemIcon>
-
-              <ListItemText
-                primary="Home"
-                primaryTypographyProps={{
-                  color: "primary",
-                  fontWeight: "medium",
-                  variant: "body1",
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </List>
+        <Stack direction="row" justifyContent={"center"} mt={1}>
+          <Button
+            variant="contained"
+            sx={{
+              color: "secondary.main",
+              "font-weight": "400",
+              "font-size": "1.1rem",
+            }}
+            startIcon={<Home />}
+          >
+            Home
+          </Button>
+          <Divider direction="vertical" sx={{ m: 2 }} />
+          <Button
+            variant="contained"
+            sx={{ color: "secondary.main" }}
+            startIcon={<TrendingUp />}
+          >
+            Trending
+          </Button>
+        </Stack>
+        <MenuList />
       </Drawer>
+      {/* Account Avatar menu  */}
       <Menu
         id="profileMenu"
         anchorEl={profileMenuEl}
         open={profileMenuOpen}
         onClose={handleProfileMenuClose}
       >
-        <MenuItem onClick={""}>
+        <MenuItem>
+          <List>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar src="/images/profile-1.jpg" />
+              </ListItemAvatar>
+              <ListItemText
+                primary="Wale Anderson"
+                secondary="View my Account"
+              />
+            </ListItem>
+          </List>
+        </MenuItem>
+
+        <MenuItem onClick={handleProfileMenuClose}>
           <ListItemIcon>
-            <Home />
+            <Settings color="info" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={""}>
+        <MenuItem onClick={handleProfileMenuClose}>
           <ListItemIcon>
-            <Home />
+            <Login color="success" />
           </ListItemIcon>
           Log In
         </MenuItem>
-        <MenuItem onClick={""}>
+        <MenuItem onClick={handleProfileMenuClose}>
           <ListItemIcon>
-            <Home />
+            <Logout color="error" />
           </ListItemIcon>
           LogOut
         </MenuItem>
