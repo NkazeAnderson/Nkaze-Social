@@ -38,8 +38,12 @@ function RightBar() {
         />
 
         <CardActions>
-          <Button variant="filled">Learn more</Button>
-          <Button variant="filled">Get a quote</Button>
+          <Button variant="filled" color="secondary.main">
+            Learn more
+          </Button>
+          <Button variant="filled" color="secondary.main">
+            Get a quote
+          </Button>
         </CardActions>
       </Card>
     </Box>
