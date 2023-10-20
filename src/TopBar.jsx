@@ -93,7 +93,7 @@ function TopBar() {
 
   return (
     <Box>
-      <AppBar position="sticky" color="primary">
+      <AppBar position="fixed" color="primary">
         {/* <Toolbar></Toolbar> */}
         <Stack
           direction="row"

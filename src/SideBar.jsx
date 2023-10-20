@@ -47,7 +47,11 @@ const SideListItem = styled(ListItem)(({ theme }) => ({
 
 function SideBar() {
   return (
-    <SideBarHolder sx={{ display: { xs: "none", md: "inline-block" } }}>
+    <SideBarHolder
+      sx={{
+        display: { xs: "none", md: "inline-block" },
+      }}
+    >
       <MenuList />
       <Divider sx={{ color: "primaryText.main" }} />
       <Paper
