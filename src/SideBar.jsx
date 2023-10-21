@@ -76,7 +76,7 @@ function SideBar() {
             variant="h4"
             sx={{
               color: "primaryText.main",
-              padding: "5px 15px",
+              padding: "5px 5px",
               cursor: "default",
             }}
           >
@@ -97,7 +97,7 @@ function SideBar() {
               secondaryTypographyProps={{
                 padding: "0px 5px",
                 fontFamily: "Glass Antiqua",
-                fontSize: "1.4rem",
+                fontSize: "1.2rem",
               }}
               primaryTypographyProps={{ fontWeight: 900 }}
               sx={{ cursor: "pointer" }}

@@ -112,7 +112,7 @@ function Content() {
               sx={{ objectFit: "fill" }}
             />
             <CardHeader
-              subheader="Nkaze Anderson"
+              subheader="By: Nkaze Anderson"
               sx={{
                 p: 0,
                 ml: 2,

@@ -6,3 +6,6 @@
   padding: 0px;
   
 }
+.contentScroll{
+  height: calc(100vh - 52px);
+}
