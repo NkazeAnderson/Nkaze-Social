@@ -41,6 +41,7 @@ import {
 import React, { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import MenuList from "./MenuList";
+import { useSelector } from "react-redux";
 
 const Logo = styled("img")({
   width: 50,
@@ -74,6 +75,8 @@ const StyledSearchInput = styled(TextField)({
 });
 
 function TopBar() {
+  const profileMenuE = useSelector((state) => state.ui.profileMenuEl);
+  console.log(profileMenuE);
   const [profileMenuEl, setProfileMenuEl] = useState(null);
   const [mobileMenuEl, setMobileMenuEl] = useState(null);
   const profileMenuOpen = Boolean(profileMenuEl);
