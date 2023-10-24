@@ -4,8 +4,10 @@ import {
   LoyaltyOutlined,
   PermMediaOutlined,
   QuickreplyOutlined,
+  Send,
   SendOutlined,
   ShareOutlined,
+  ThumbDown,
   ThumbUpAltOutlined,
 } from "@mui/icons-material";
 import {
@@ -24,8 +26,19 @@ import {
   Chip,
   CardActions,
   CardHeader,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemAvatar,
+  ListItemText,
+  Divider,
+  InputAdornment,
+  Badge,
+  AvatarGroup,
 } from "@mui/material";
 import React from "react";
+import NewPost from "./NewPost";
+import PostCommentReaction from "./PostComment";
 
 function Content() {
   return (
@@ -50,31 +63,7 @@ function Content() {
           </Stack>
         </Grid>
         <Grid item xs={10.5}>
-          <Paper elevation={5} mb={2}>
-            <Stack
-              direction="row"
-              alignItems={"center"}
-              sx={{ backgroundColor: "primary.main", p: 1 }}
-            >
-              <Typography
-                variant="body1"
-                sx={{ ml: 2, color: "primaryText.main", fontWeight: 600 }}
-              >
-                Nkaze Anderson's Post
-              </Typography>
-            </Stack>
-            <TextField
-              fullWidth
-              placeholder="Post a new post"
-              multiline
-              maxRows={3}
-            ></TextField>
-            <Stack direction="row" justifyContent={"space-around"}>
-              <Button endIcon={<PermMediaOutlined />}>Add Media</Button>
-              <Button endIcon={<LoyaltyOutlined />}>Tag Friends</Button>
-              <Button endIcon={<SendOutlined />}>Post</Button>
-            </Stack>
-          </Paper>
+          <NewPost />
         </Grid>
       </Grid>
 
@@ -135,6 +124,33 @@ function Content() {
               <Button endIcon={<QuickreplyOutlined />}>Comment</Button>
               <Button endIcon={<ShareOutlined />}>Share</Button>
             </CardActions>
+            <Divider />
+            <CardContent>
+              <TextField
+                placeholder="write a comment"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton>
+                        <Send color="primary" />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                fullWidth
+              />
+              <List>
+                <ListItem secondaryAction={<PostCommentReaction />}>
+                  <ListItemAvatar>
+                    <Avatar />
+                  </ListItemAvatar>
+
+                  <ListItemText secondary="Lol, Liking so awesome" />
+                </ListItem>
+
+                <PostCommentReaction display={"sm"} />
+              </List>
+            </CardContent>
           </Card>
         </Grid>
       </Grid>
