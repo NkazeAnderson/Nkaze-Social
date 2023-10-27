@@ -2,7 +2,7 @@ import { Search } from "@mui/icons-material";
 import { Box, InputBase, Stack, styled } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { UiActions } from "./store/uiSlice";
+import { UiActions } from "../store/uiSlice";
 const SearchBox = styled(Box)(({ theme }) => ({
   width: "100%",
   backgroundColor: "white",

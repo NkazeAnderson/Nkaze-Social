@@ -23,7 +23,7 @@ import TopBarAvatar from "./TopBarAvatar";
 import { useState } from "react";
 import SearchComponent from "./SearchComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { UiActions } from "./store/uiSlice";
+import { UiActions } from "../store/uiSlice";
 
 const MobileTopbar = () => {
   const [mobileMenuEl, setMobileMenuEl] = useState(null);

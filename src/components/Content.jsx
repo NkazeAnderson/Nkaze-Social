@@ -1,13 +1,8 @@
 import {
-  AccessTime,
   Favorite,
-  LoyaltyOutlined,
-  PermMediaOutlined,
   QuickreplyOutlined,
   Send,
-  SendOutlined,
   ShareOutlined,
-  ThumbDown,
   ThumbUpAltOutlined,
 } from "@mui/icons-material";
 import {
@@ -15,7 +10,6 @@ import {
   Box,
   Button,
   Grid,
-  Paper,
   Stack,
   TextField,
   Typography,
