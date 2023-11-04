@@ -107,28 +107,78 @@ function ContentProfile() {
           m: 0,
         }}
       >
-        <Typography variant="h4" color="initial">
+        <Typography
+          variant="h3"
+          color="secondary.dark"
+          sx={{
+            backgroundColor: { xs: "secondaryText.light", md: "transparent" },
+          }}
+        >
           Nkaze Anderson
         </Typography>
+
         <Stack direction={"row"} justifyContent="space-evenly">
-          <Stack>
-            <Typography variant="h5" color="initial">
+          <Stack
+            backgroundColor="secondary.dark"
+            color="primaryText.main"
+            p="10px 20px"
+          >
+            <Typography variant="h5" sx={{ textDecoration: "underline" }}>
               Followers
             </Typography>
-            <Typography variant="h6" color="initial">
+            <Typography variant="h6" textAlign={"center"}>
               10.5k
             </Typography>
           </Stack>
-          <Stack>
-            <Typography variant="h5" color="initial">
+          <Stack
+            backgroundColor="secondary.dark"
+            color="primaryText.main"
+            p="10px 20px"
+          >
+            <Typography variant="h5" sx={{ textDecoration: "underline" }}>
               Following
             </Typography>
-            <Typography variant="h6" color="initial">
+            <Typography variant="h6" textAlign={"center"}>
               10.5k
             </Typography>
           </Stack>
-          <Button variant="contained">Edit</Button>
+          <Box
+            sx={{ position: "relative", display: { xs: "none", md: "flex" } }}
+          >
+            <Button
+              variant="contained"
+              size="small"
+              sx={{
+                display: "block",
+                position: "absolute",
+                bottom: "0px",
+                left: "0px",
+              }}
+            >
+              Edit
+            </Button>
+          </Box>
         </Stack>
+        {/* mobile */}
+        <Box
+          sx={{
+            position: "relative",
+            justifyContent: "end",
+            width: "100%",
+            pt: "10px",
+            display: { xs: "flex", md: "none" },
+          }}
+        >
+          <Button
+            variant="contained"
+            size="small"
+            sx={{
+              display: "block",
+            }}
+          >
+            Edit
+          </Button>
+        </Box>
         <Grid container>
           <Grid item flex={1.5}></Grid>
           <Grid item flex={10.5}>
