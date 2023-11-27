@@ -1,4 +1,4 @@
-import { Login, Logout, Settings } from "@mui/icons-material";
+import { Login, Logout, Person3TwoTone, Settings } from "@mui/icons-material";
 import {
   Avatar,
   IconButton,
@@ -11,17 +11,22 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function TopBarAvatar() {
   const [profileMenuEl, setProfileMenuEl] = useState(null);
 
   const profileMenuOpen = Boolean(profileMenuEl);
-
+  const navigate = useNavigate();
   const handleProfileMenuClick = (event) => {
     setProfileMenuEl(event.currentTarget);
   };
   const handleProfileMenuClose = (event) => {
     setProfileMenuEl(null);
+    let target = event.currentTarget.getAttribute("id");
+    target === "login" && navigate("/user/login");
+    target === "logout" && navigate("/user/logout");
+    target === "signup" && navigate("/user/signup");
   };
   return (
     <>
@@ -59,19 +64,25 @@ function TopBarAvatar() {
           </List>
         </MenuItem>
 
-        <MenuItem onClick={handleProfileMenuClose}>
+        <MenuItem id="settings" onClick={handleProfileMenuClose}>
           <ListItemIcon>
             <Settings color="info" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleProfileMenuClose}>
+        <MenuItem id="login" onClick={handleProfileMenuClose}>
           <ListItemIcon>
             <Login color="success" />
           </ListItemIcon>
           Log In
         </MenuItem>
-        <MenuItem onClick={handleProfileMenuClose}>
+        <MenuItem id="signup" onClick={handleProfileMenuClose}>
+          <ListItemIcon>
+            <Person3TwoTone color="success" />
+          </ListItemIcon>
+          Sign Up
+        </MenuItem>
+        <MenuItem id="logout" onClick={handleProfileMenuClose}>
           <ListItemIcon>
             <Logout color="error" />
           </ListItemIcon>
