@@ -50,23 +50,41 @@ import { useSelector } from "react-redux";
 import { get } from "../utils/BackEndRequests";
 import { useParams } from "react-router-dom";
 import Post from "./Post";
+import axios from "axios";
 
 function ContentProfile() {
   const [posts, setPosts ] = useState([])
-  const [user, setUser ] = useState({})
+  const [user, setUser ] = useState({"_id":"6569b2b604206ecd08153618","first_name":"User","last_name":"User","email":"Loading","phone":"Loading","profile_pic":"/noProfilePic.png","cover_pic":"/noCoverPic.png","followers":[],"following":[],"__v":0})
   const {_id} = useSelector((state)=>state.user.user)
+  const isLoggedIn = useSelector((state)=>state.user.logged_in)
   const {id} = useParams();
   
  
   useEffect(()=>{
-    get(`/api/user/${id}`).then(res=>{
-      setUser(res.data)
-    })
-    get(`/api/post/timeline/${id}`).then(res=>{
-      setPosts([...res.data])
-    })
-  },[])
 
+    if (isLoggedIn){
+      get(`/api/user/${id}`).then(res=>{
+        setUser(res.data)
+      })
+      get(`/api/post/timeline/${id}`).then(res=>{
+        setPosts([...res.data])
+      })
+    } 
+    
+  },[isLoggedIn])
+
+  const handleFollow = () =>{
+    axios.put(`/api/user/${id}/follow`).then(res=>{
+      get(`/api/user/${id}`).then(res=>{
+        setUser(res.data)
+      })
+    })
+  }
+const isFollowing = user.followers.filter(u=>{
+  console.log("u:", u)
+  console.log("id request:", _id)
+  return u._id == _id
+})
   const userInfo = {
     phone: user.phone,
     email: user.email,
@@ -146,7 +164,7 @@ function ContentProfile() {
               Followers
             </Typography>
             <Typography variant="h6" textAlign={"center"}>
-              {user.followers && user.followers.length}
+              { user.followers && user.followers.length}
             </Typography>
           </Stack>
           <Stack
@@ -174,8 +192,34 @@ function ContentProfile() {
                 left: "0px",
               }}
             >
-              {id == _id ? "Edit" : "Follow"}
             </Button>
+              {id == _id ? 
+              <Button
+              variant="contained"
+              size="small"
+              sx={{
+                display: "block",
+                position: "absolute",
+                bottom: "0px",
+                left: "0px",
+              }}
+            >
+              Edit
+            </Button>
+              : <Button
+              variant="contained"
+              size="small"
+              sx={{
+                display: "block",
+                position: "absolute",
+                bottom: "0px",
+                left: "0px",
+              }}
+              onClick={handleFollow}
+            >
+              {isFollowing.length > 0 ? "Unfollow": "Follow"}
+              
+            </Button>}
           </Box>
         </Stack>
         {/* mobile */}

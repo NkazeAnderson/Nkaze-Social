@@ -41,12 +41,13 @@ import Post from "./Post";
 function Content() {
   const [posts, setPosts ] = useState([])
   const user = useSelector((state)=>state.user.user)
- 
+  const isLoggedIn = useSelector((state)=>state.user.logged_in)
+  
   useEffect(()=>{
-    get("/api/post/trending").then(res=>{
+   isLoggedIn && get("/api/post/trending").then(res=>{
       setPosts([...res.data])
     })
-  },[])
+  },[isLoggedIn])
   
   return (
     <Box

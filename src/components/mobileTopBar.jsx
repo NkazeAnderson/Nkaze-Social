@@ -24,6 +24,7 @@ import { useState } from "react";
 import SearchComponent from "./SearchComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { UiActions } from "../store/uiSlice";
+import { Link } from "react-router-dom";
 
 const MobileTopbar = () => {
   const [mobileMenuEl, setMobileMenuEl] = useState(null);
@@ -54,7 +55,8 @@ const MobileTopbar = () => {
           </IconButton>
         </Grid>
         <Grid item xs="2">
-          <Logo src="/images/logo.png" />
+        <Link style={{"text-decoration": "none"}} to={"/"}> 
+          <Logo src="/images/logo.png" /></Link>
         </Grid>
         <Grid item xs="8" justifyContent={"end"}>
           <Stack
@@ -101,6 +103,7 @@ const MobileTopbar = () => {
         </Stack>
         <Divider />
         <Stack direction="row" justifyContent={"center"} mt={1}>
+        <Link style={{"text-decoration": "none"}} to={"/"}> 
           <Button
             variant="contained"
             sx={{
@@ -109,17 +112,20 @@ const MobileTopbar = () => {
               "font-size": "1.1rem",
             }}
             startIcon={<Home />}
+            onClick={handleMobileMenuClose}
           >
             Home
-          </Button>
+          </Button> </Link>
           <Divider direction="vertical" sx={{ m: 2 }} />
+          <Link style={{"text-decoration": "none"}} to={"/"}> 
           <Button
             variant="contained"
             sx={{ color: "secondary.main" }}
             startIcon={<TrendingUp />}
+            onClick={handleMobileMenuClose}
           >
             Trending
-          </Button>
+          </Button> </Link>
         </Stack>
         <MenuList />
       </Drawer>

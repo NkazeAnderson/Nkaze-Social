@@ -10,26 +10,35 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { userActions } from "../store/userSlice";
 
 function TopBarAvatar() {
   const [profileMenuEl, setProfileMenuEl] = useState(null);
   const logged_in = useSelector(state=>(state.user.logged_in))
   const user = useSelector(state=>(state.user.user))
-
+  const dispatch = useDispatch()
   const profileMenuOpen = Boolean(profileMenuEl);
   const navigate = useNavigate();
   const handleProfileMenuClick = (event) => {
     setProfileMenuEl(event.currentTarget);
   };
+  
   const handleProfileMenuClose = (event) => {
     setProfileMenuEl(null);
     let target = event.currentTarget.getAttribute("id");
     target === "login" && navigate("/user/login");
-    target === "logout" && navigate("/user/logout");
     target === "signup" && navigate("/user/signup");
+    if (target === "logout") {
+
+      axios.get("/api/auth/logout").then(res=>{
+        dispatch(userActions.logout())
+        navigate("/user/login")
+      })
+    } 
   };
   return (
     <>

@@ -16,10 +16,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function NewPost() {
   const [images, setImages] = useState([]);
   const ImageUrls = [];
+  const user = useSelector(state=>state.user.user)
   var data_pos = 0;
  
   
@@ -75,7 +77,7 @@ function NewPost() {
           variant="body1"
           sx={{ ml: 2, color: "primaryText.main", fontWeight: 600 }}
         >
-          Nkaze Anderson's Post
+          {`${user.first_name} ${user.last_name}'s Post`}
         </Typography>
       </Stack>
       <TextField

@@ -45,6 +45,7 @@ import { useSelector } from "react-redux";
 import MobileTopbar from "./mobileTopBar";
 import TopBarAvatar from "./TopBarAvatar";
 import SearchComponent from "./SearchComponent";
+import { Link } from "react-router-dom";
 
 export const Logo = styled("img")({
   width: 50,
@@ -82,6 +83,7 @@ function TopBar() {
           sx={{ display: { xs: "none", md: "flex" } }}
         >
           <Box sx={{ flex: 3 }}>
+            <Link style={{"text-decoration": "none"}} to={"/"}> 
             <Stack direction="row" justifyContent="start" alignItems="center">
               <Logo src="/images/logo.png" alt="Logo" />
               <Typography
@@ -91,6 +93,7 @@ function TopBar() {
                 Nkaze Social
               </Typography>
             </Stack>
+            </Link>
           </Box>
           <SearchComponent
             id="search"
@@ -104,16 +107,18 @@ function TopBar() {
               spacing={3}
               mr={5}
             >
+              <Link style={{"text-decoration": "none"}} to={"/"}> 
               <Button variant="text" color="primaryText" startIcon={<Home />}>
                 Home
-              </Button>
+              </Button> </Link>
+              <Link style={{"text-decoration": "none"}} to={"/"}> 
               <Button
                 variant="text"
                 color="primaryText"
                 startIcon={<TrendingUp />}
               >
                 Trending
-              </Button>
+              </Button> </Link>
               <IconButton aria-label="Messages" onClick={""}>
                 <Badge badgeContent="1" color="error">
                   <Message sx={{ color: "white" }} />
