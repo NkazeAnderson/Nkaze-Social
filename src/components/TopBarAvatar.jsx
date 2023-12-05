@@ -11,10 +11,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 function TopBarAvatar() {
   const [profileMenuEl, setProfileMenuEl] = useState(null);
+  const logged_in = useSelector(state=>(state.user.logged_in))
+  const user = useSelector(state=>(state.user.user))
 
   const profileMenuOpen = Boolean(profileMenuEl);
   const navigate = useNavigate();
@@ -39,9 +42,9 @@ function TopBarAvatar() {
         <Avatar
           id="profileButton"
           color="secondary"
-          src="/images/profile-1.jpg"
+          src={`/files/${user.profile_pic}`}
         >
-          P
+          {user.first_name}
         </Avatar>
       </IconButton>
       <Menu
@@ -50,44 +53,61 @@ function TopBarAvatar() {
         open={profileMenuOpen}
         onClose={handleProfileMenuClose}
       >
-        <MenuItem>
+       <Link style={{"text-decoration": "none"}} to={`/profile/${user['_id']}`}>
+       <MenuItem onClick={handleProfileMenuClose}>
           <List>
             <ListItem>
               <ListItemAvatar>
-                <Avatar src="/images/profile-1.jpg" />
+                <Avatar src = {`/files/${user.profile_pic}`} />
               </ListItemAvatar>
               <ListItemText
-                primary="Wale Anderson"
+                primary={`${user.first_name} ${user.last_name}`}
                 secondary="View my Account"
               />
             </ListItem>
           </List>
         </MenuItem>
+       </Link> 
 
-        <MenuItem id="settings" onClick={handleProfileMenuClose}>
-          <ListItemIcon>
-            <Settings color="info" />
-          </ListItemIcon>
-          Settings
+       {
+        logged_in && <MenuItem id="settings" onClick={handleProfileMenuClose}>
+        <ListItemIcon>
+          <Settings color="info" />
+        </ListItemIcon>
+        Settings
         </MenuItem>
-        <MenuItem id="login" onClick={handleProfileMenuClose}>
-          <ListItemIcon>
-            <Login color="success" />
-          </ListItemIcon>
-          Log In
-        </MenuItem>
-        <MenuItem id="signup" onClick={handleProfileMenuClose}>
-          <ListItemIcon>
-            <Person3TwoTone color="success" />
-          </ListItemIcon>
-          Sign Up
-        </MenuItem>
-        <MenuItem id="logout" onClick={handleProfileMenuClose}>
-          <ListItemIcon>
-            <Logout color="error" />
-          </ListItemIcon>
-          LogOut
-        </MenuItem>
+       }
+        
+       {
+        logged_in && <MenuItem id="logout" onClick={handleProfileMenuClose}>
+        <ListItemIcon>
+          <Logout color="error" />
+        </ListItemIcon>
+        LogOut
+      </MenuItem>
+       }
+        
+       {
+        !logged_in && <MenuItem id="login" onClick={handleProfileMenuClose}>
+        <ListItemIcon>
+          <Login color="success" />
+        </ListItemIcon>
+        Log In
+      </MenuItem>
+       }
+        
+       {
+        !logged_in && <MenuItem id="signup" onClick={handleProfileMenuClose}>
+        <ListItemIcon>
+          <Person3TwoTone color="success" />
+        </ListItemIcon>
+        Sign Up
+      </MenuItem>
+       }
+        
+        
+        
+        
       </Menu>
     </>
   );

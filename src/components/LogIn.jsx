@@ -19,9 +19,7 @@ import { useState } from "react";
 function Login() {
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-
-  const logged_in = sessionStorage.getItem("logged_in");
+  const logged_in = useSelector((state) => state.user.logged_in);
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
@@ -31,11 +29,9 @@ function Login() {
       };
       const res = await axios.post("/api/auth/login", data);
       const userRes = await axios.get("/api/user/" + res.data.user);
-      sessionStorage.setItem("logged_in", true);
       userRes.status === 200 && dispatch(userActions.login(userRes.data));
     } catch (err) {
       setError(err.response.status);
-      sessionStorage.setItem("logged_in", false);
     }
   };
   return (

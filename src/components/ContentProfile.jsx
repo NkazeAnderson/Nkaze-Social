@@ -43,25 +43,44 @@ import {
   Table,
   Paper,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NewPost from "./NewPost";
 import PostCommentReaction from "./PostComment";
+import { useSelector } from "react-redux";
+import { get } from "../utils/BackEndRequests";
+import { useParams } from "react-router-dom";
+import Post from "./Post";
 
 function ContentProfile() {
+  const [posts, setPosts ] = useState([])
+  const [user, setUser ] = useState({})
+  const {_id} = useSelector((state)=>state.user.user)
+  const {id} = useParams();
+  
+ 
+  useEffect(()=>{
+    get(`/api/user/${id}`).then(res=>{
+      setUser(res.data)
+    })
+    get(`/api/post/timeline/${id}`).then(res=>{
+      setPosts([...res.data])
+    })
+  },[])
+
   const userInfo = {
-    phone: "+23767576767",
-    email: "nkazeanderson@gmail.com",
-    street: "1334 Mile 20",
-    city: "Bamenda",
-    state: "North West",
-    country: "Cameroon",
-    job: "Full Stack Developer",
-    status: "In a relationship",
+    phone: user.phone,
+    email: user.email,
+    street: user.street ? user.street : "N/a",
+    city: user.city ? user.city : "N/a",
+    state: user.state ? user.state : "N/a",
+    country: user.country ? user.country : "N/a",
+    job: user.job ? user.job : "N/a",
+    status: user.status ? user.status : "N/a",
   };
   return (
     <>
       <Box container mt={1} mb={1}>
-        <img width={"100%"} height="250px" src="/images/profile-2.jpg" />
+        <img width={"100%"} height="250px" src={`/files/${user.cover_pic}`}/>
         <Box
           sx={{
             position: "relative",
@@ -93,7 +112,7 @@ function ContentProfile() {
                   height: "150px",
                   width: "150px",
                 }}
-                src="/images/profile-1.jpg"
+                src={`/files/${user.profile_pic}`}
               />
             </Box>
           </Box>
@@ -114,10 +133,10 @@ function ContentProfile() {
             backgroundColor: { xs: "secondaryText.light", md: "transparent" },
           }}
         >
-          Nkaze Anderson
+          {`${user.first_name} ${user.last_name}`}
         </Typography>
 
-        <Stack direction={"row"} justifyContent="space-evenly">
+        <Stack direction={"row"} mt={2} justifyContent="space-evenly">
           <Stack
             backgroundColor="secondary.dark"
             color="primaryText.main"
@@ -127,7 +146,7 @@ function ContentProfile() {
               Followers
             </Typography>
             <Typography variant="h6" textAlign={"center"}>
-              10.5k
+              {user.followers && user.followers.length}
             </Typography>
           </Stack>
           <Stack
@@ -139,7 +158,7 @@ function ContentProfile() {
               Following
             </Typography>
             <Typography variant="h6" textAlign={"center"}>
-              10.5k
+            {user.following && user.following.length}
             </Typography>
           </Stack>
           <Box
@@ -155,7 +174,7 @@ function ContentProfile() {
                 left: "0px",
               }}
             >
-              Edit
+              {id == _id ? "Edit" : "Follow"}
             </Button>
           </Box>
         </Stack>
@@ -253,93 +272,7 @@ function ContentProfile() {
           </Grid>
         </Grid>
 
-        <Grid container mt={1} mb={1}>
-          <Grid item xs={1.5}>
-            <Stack alignItems={"center"} sx={{ p: 0, m: 0 }}>
-              <IconButton aria-label="" onClick={""}>
-                <Avatar
-                  sx={{
-                    borderColor: "primary.main",
-                    borderStyle: "solid",
-                    borderWidth: "1px",
-                  }}
-                  src="/images/profile-1.jpg"
-                />
-              </IconButton>
-              <Favorite color="primary" fontSize="1" />
-              <Chip
-                label="5.5k"
-                size="small"
-                color="primary"
-                sx={{
-                  fontWeight: "500",
-                }}
-              ></Chip>
-            </Stack>
-          </Grid>
-          <Grid item xs={10.5}>
-            <Card elevation={6}>
-              <CardMedia
-                component="img"
-                title="Nkaze Anderson"
-                image="/images/profile-3.jpg"
-                height="450"
-                sx={{ objectFit: "fill" }}
-              />
-              <CardHeader
-                subheader="By: Nkaze Anderson"
-                sx={{
-                  p: 0,
-                  ml: 2,
-                  "& .MuiCardHeader-subheader": {
-                    color: "primary.main",
-                    fontWeight: 600,
-                    textAlign: "center",
-                  },
-                }}
-              ></CardHeader>
-              <CardContent>
-                <Typography variant="body1">
-                  Hello Wale posted something amazing. Findout more about this
-                  post
-                </Typography>
-                <Chip label="Read More" variant="outlined" size="small"></Chip>
-              </CardContent>
-              <CardActions>
-                <Button endIcon={<ThumbUpAltOutlined />}>Like</Button>
-                <Button endIcon={<QuickreplyOutlined />}>Comment</Button>
-                <Button endIcon={<ShareOutlined />}>Share</Button>
-              </CardActions>
-              <Divider />
-              <CardContent>
-                <TextField
-                  placeholder="write a comment"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton>
-                          <Send color="primary" />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  fullWidth
-                />
-                <List>
-                  <ListItem secondaryAction={<PostCommentReaction />}>
-                    <ListItemAvatar>
-                      <Avatar />
-                    </ListItemAvatar>
-
-                    <ListItemText secondary="Lol, Liking so awesome" />
-                  </ListItem>
-
-                  <PostCommentReaction display={"sm"} />
-                </List>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+        {posts.length>0 && posts.map((post, i)=>(<Post postData= {post} key={i}/>))}
       </Box>
     </>
   );

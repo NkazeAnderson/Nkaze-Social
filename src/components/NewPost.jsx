@@ -5,7 +5,6 @@ import {
   SendOutlined,
 } from "@mui/icons-material";
 import {
-  Box,
   Button,
   IconButton,
   ImageList,
@@ -15,29 +14,56 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 function NewPost() {
   const [images, setImages] = useState([]);
   const ImageUrls = [];
+  var data_pos = 0;
+ 
+  
+    images.map((file) => {
+      const fileURL = URL.createObjectURL(file);
+      const i = { img: fileURL, title: file.name , pos: data_pos };
+      ImageUrls.push(i);
+      data_pos ++;
+      return;
+    });
+  
   const handlePostImageAdd = (event) => {
     const imageArray = images;
     for (let i = 0; i < event.target.files.length; i++) {
       imageArray.push(event.target.files[i]);
     }
-    // console.log(imageArray);
     setImages([...imageArray]);
   };
+ 
+  const handleRemoveImage = (e)=>{
+    const el = e.currentTarget
+    const pos = parseInt(el.getAttribute("data-pos") ) 
+    const newImages = []
+    for ( let i = 0; i < images.length; i++){
+      i != pos && newImages.push(images[i])
+    }
+    setImages([...newImages])
+  }
 
-  console.log(images);
-  images.map((file) => {
-    const fileURL = URL.createObjectURL(file);
-    const i = { img: fileURL, title: file.name };
-    ImageUrls.push(i);
-  });
-  console.log(ImageUrls);
+  const handlePost= async (e) => {
+    const formData = new FormData()
+    const  text = document.getElementById("postText").value;
+    formData.append("text", text)
+    images.forEach(image=>{
+      formData.append("files", image)
+    })
+    try{
+      const res = await axios.post("/api/post", formData, {"Content-Type": `multipart/form-data; boundary=${formData._boundary}`})
+      if (res.status == 200) { document.getElementById("postText").value = ""; setImages([]);}
+    }
+    catch(err){
 
+    }
+  }
   return (
     <Paper elevation={5} mb={4}>
       <Stack
@@ -57,6 +83,7 @@ function NewPost() {
         placeholder="Post a new post"
         multiline
         maxRows={3}
+        id = "postText"
       ></TextField>
       <input
         id="postImages"
@@ -76,6 +103,8 @@ function NewPost() {
             <ImageListItem key={item.img} sx={{ position: "relative" }}>
               <IconButton
                 sx={{ position: "absolute", backgroundColor: "primary.light" }}
+                data-pos = {item.pos}
+                onClick={handleRemoveImage}
               >
                 <Delete color={"error.light"} />
               </IconButton>
@@ -83,7 +112,7 @@ function NewPost() {
               <img
                 srcSet={`${item.img}`}
                 src={`${item.img}`}
-                alt={"Post Image"}
+                alt={item.title}
                 loading="lazy"
               />
             </ImageListItem>
@@ -100,7 +129,7 @@ function NewPost() {
           Add Media
         </Button>
         <Button endIcon={<LoyaltyOutlined />}>Tag Friends</Button>
-        <Button endIcon={<SendOutlined />}>Post</Button>
+        <Button onClick={handlePost} endIcon={<SendOutlined />}>Post</Button>
       </Stack>
     </Paper>
   );
