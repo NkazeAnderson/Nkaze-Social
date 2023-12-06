@@ -10,11 +10,11 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { userActions } from "../store/userSlice";
+import { get } from "../utils/BackEndRequests";
 
 function TopBarAvatar() {
   const [profileMenuEl, setProfileMenuEl] = useState(null);
@@ -34,7 +34,7 @@ function TopBarAvatar() {
     target === "signup" && navigate("/user/signup");
     if (target === "logout") {
 
-      axios.get("/api/auth/logout").then(res=>{
+      get("/api/auth/logout").then(res=>{
         dispatch(userActions.logout())
         navigate("/user/login")
       })

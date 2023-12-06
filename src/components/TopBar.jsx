@@ -3,45 +3,20 @@ import {
   Notifications,
   Home,
   TrendingUp,
-  Search,
-  // Menu,
-  Close,
-  Settings,
-  Login,
-  Logout,
 } from "@mui/icons-material";
 
-import MenuIcon from "@mui/icons-material/Menu";
 
 import {
   Box,
   Stack,
-  TextField,
   AppBar,
-  InputAdornment,
   Typography,
   styled,
   Badge,
-  Button,
-  Avatar,
-  Grid,
-  Drawer,
-  Divider,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  ListItemSecondaryAction,
-  InputBase,
-  ListItemAvatar,
+  Button
+
 } from "@mui/material";
-import React, { useState } from "react";
 import IconButton from "@mui/material/IconButton";
-import MenuList from "./MenuList";
-import { useSelector } from "react-redux";
 import MobileTopbar from "./mobileTopBar";
 import TopBarAvatar from "./TopBarAvatar";
 import SearchComponent from "./SearchComponent";
@@ -50,25 +25,6 @@ import { Link } from "react-router-dom";
 export const Logo = styled("img")({
   width: 50,
   height: 50,
-});
-const StlyedListItemIcon = styled(ListItemIcon)({
-  "&.MuiListItemIcon-root": {
-    pr: 0,
-    backgroundColor: "primary.main",
-    width: "35px",
-    "min-width": "35px",
-  },
-});
-const StyledSearchInput = styled(TextField)({
-  "&:focus": {
-    outline: "none !important",
-    border: "none !important",
-  },
-  "&:hover": {
-    outline: "none !important",
-    border: "none !important",
-  },
-  display: { md: "block", xs: "none" },
 });
 
 function TopBar() {

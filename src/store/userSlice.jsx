@@ -11,6 +11,9 @@ export const userSlice = createSlice({
       state.user = payload;
       state.logged_in = true;
     },
+    changes: (state, { payload }) => {
+      state.user = payload;
+    },
     logout: (state) => {
       state.user = null;
       state.logged_in = false;

@@ -8,9 +8,7 @@ import {
 } from "@mui/icons-material";
 import MenuList from "./MenuList";
 import {
-  Avatar,
   Badge,
-  Box,
   Button,
   Divider,
   Drawer,

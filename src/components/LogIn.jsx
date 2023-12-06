@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import { Link, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
 import { userActions } from "../store/userSlice";
 import { useState } from "react";
+import { get, post } from "../utils/BackEndRequests";
 
 function Login() {
   const [error, setError] = useState(null);
@@ -27,8 +27,8 @@ function Login() {
         email: document.getElementById("logemail").value,
         password: document.getElementById("logpassword").value,
       };
-      const res = await axios.post("/api/auth/login", data);
-      const userRes = await axios.get("/api/user/" + res.data.user);
+      const res = await post("/api/auth/login", data);
+      const userRes = await get("/api/user/" + res.data.user);
       userRes.status === 200 && dispatch(userActions.login(userRes.data));
     } catch (err) {
       setError(err.response.status);

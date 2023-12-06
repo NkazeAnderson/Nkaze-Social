@@ -9,9 +9,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { post } from "../utils/BackEndRequests";
 
 function SignUp() {
   const [firstName, setFirstName] =  useState("")
@@ -35,7 +35,7 @@ function SignUp() {
   const handleSubmit = () =>{
     if (password === password1){
       const data ={first_name: firstName, last_name: lastName, phone: phone, email: email, password: password}
-      axios.post("/api/user", data).then(res=>{
+      post("/api/user", data).then(res=>{
         navigate("/user/login")
       })
     }

@@ -14,9 +14,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { post } from "../utils/BackEndRequests";
 
 function NewPost() {
   const [images, setImages] = useState([]);
@@ -59,7 +59,7 @@ function NewPost() {
       formData.append("files", image)
     })
     try{
-      const res = await axios.post("/api/post", formData, {"Content-Type": `multipart/form-data; boundary=${formData._boundary}`})
+      const res = await post("/api/post", formData, {"Content-Type": `multipart/form-data; boundary=${formData._boundary}`})
       if (res.status == 200) { document.getElementById("postText").value = ""; setImages([]);}
     }
     catch(err){

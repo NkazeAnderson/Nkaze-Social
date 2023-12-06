@@ -1,16 +1,16 @@
 import { Send } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
-import axios from "axios";
 import { useState } from "react";
+import { get, put } from "../utils/BackEndRequests";
 
 function AddComment({post, setPost}){
     const [newComment, setNewComment] = useState("");
     const handleCommentSubmit = async (e) =>
   {
     e.preventDefault()
-    axios.put(`/api/post/${post.id}/comment`, {text: newComment}).then(res=>{
+    put(`/api/post/${post.id}/comment`, {text: newComment}).then(res=>{
         if (res.status === 200){
-            axios.get(`/api/post/${post.id}`).then(response=>{
+            get(`/api/post/${post.id}`).then(response=>{
                 setNewComment("")
                 setPost(response.data)
               })

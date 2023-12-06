@@ -25,25 +25,6 @@ const SideBarHolder = styled(Box)(({ theme }) => ({
   position: "sticky",
   scrollbarWidth: "thin",
 }));
-const SideListItem = styled(ListItem)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  "font-size": "1.5rem",
-  "border-top-right-radius": "10px",
-  "border-bottom-right-radius": "10px",
-
-  margin: "5px 25px",
-  width: "90%",
-  "& .MuiButtonBase-root": { "margin-left": "54px" },
-  "& .MuiSvgIcon-root": {
-    color: theme.palette.primaryText.main,
-    "font-size": "1.3rem",
-  },
-  "& .MuiTypography-root": {
-    color: theme.palette.primaryText.main,
-    "font-weight": "400",
-    "font-size": "1.3rem",
-  },
-}));
 
 function SideBar() {
   return (

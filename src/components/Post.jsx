@@ -1,7 +1,6 @@
-import { Favorite, QuickreplyOutlined, Send, ShareOutlined, ThumbDown, ThumbUpAltOutlined } from "@mui/icons-material";
+import { Favorite, QuickreplyOutlined, ShareOutlined, ThumbDown, ThumbUpAltOutlined } from "@mui/icons-material";
 import {
     Avatar,
-  Box,
   Button,
   Card,
   CardActions,
@@ -10,29 +9,21 @@ import {
   CardMedia,
   Chip,
   Divider,
-  FormControl,
   Grid,
   IconButton,
-  InputAdornment,
-  InputLabel,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  OutlinedInput,
-  Snackbar,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import { Link, Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import { userActions } from "../store/userSlice";
+import { useSelector} from "react-redux";
 import { useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import PostCommentReaction from "./PostComment";
 import AddComment from "./AddComment";
+import { get, put } from "../utils/BackEndRequests";
 
 function Post(props) {
   const [post, setPost] = useState(props.postData);
@@ -55,16 +46,15 @@ function Post(props) {
 
   const handleCommentLIke = (e) =>
   {
-    axios.put("/api/comment/")
+    put("/api/comment/")
   }
  const handleCommentOpen = ()=>{
   setCommentOpen(!commentOpen)
  }
  const handleLike = async (e) => {
-  const el= e.currentTarget
-  axios.put(`/api/post/${post.id}/like`).then(res=>{
+  put(`/api/post/${post.id}/like`).then(res=>{
     if (res.status == 200){
-      axios.get(`/api/post/${post.id}`).then(response=>{
+      get(`/api/post/${post.id}`).then(response=>{
         setPost(response.data)
       }
       )

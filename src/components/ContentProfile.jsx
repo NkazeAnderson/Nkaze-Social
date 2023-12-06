@@ -1,15 +1,10 @@
 import {
   AddAPhotoOutlined,
   Call,
+  Cancel,
   Email,
-  Favorite,
-  InfoOutlined,
-  Person2Outlined,
   PersonPin,
-  QuickreplyOutlined,
-  Send,
-  ShareOutlined,
-  ThumbUpAltOutlined,
+  Save,
   Work,
 } from "@mui/icons-material";
 import {
@@ -18,39 +13,21 @@ import {
   Button,
   Grid,
   Stack,
-  TextField,
   Typography,
   IconButton,
-  Card,
-  CardMedia,
-  CardContent,
-  Chip,
-  CardActions,
-  CardHeader,
   List,
   ListItem,
-  ListItemButton,
-  ListItemAvatar,
   ListItemText,
-  Divider,
-  InputAdornment,
   Badge,
-  AvatarGroup,
-  TableContainer,
-  TableBody,
-  TableRow,
-  TableCell,
-  Table,
   Paper,
+  Popover,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import NewPost from "./NewPost";
-import PostCommentReaction from "./PostComment";
-import { useSelector } from "react-redux";
-import { get } from "../utils/BackEndRequests";
-import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { get, put } from "../utils/BackEndRequests";
+import { useNavigate, useParams } from "react-router-dom";
 import Post from "./Post";
-import axios from "axios";
+import { userActions } from "../store/userSlice";
 
 function ContentProfile() {
   const [posts, setPosts ] = useState([])
@@ -58,6 +35,63 @@ function ContentProfile() {
   const {_id} = useSelector((state)=>state.user.user)
   const isLoggedIn = useSelector((state)=>state.user.logged_in)
   const {id} = useParams();
+  const navigate =  useNavigate();
+  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [picToChange, setPicToChange] = useState(null);
+  const [picToChangeURL, setPicToChangeURL] = useState(null);
+  const [file, setFile] = useState(null);
+
+  const handleAddPics = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleAddPic = (event) => {
+    if(event.currentTarget.getAttribute("id") === "addPpBtn"){
+       document.getElementById("addPicInput").click() 
+       setPicToChange(0)
+    }
+    if(event.currentTarget.getAttribute("id") === "addCpBtn"){
+       document.getElementById("addPicInput").click() 
+       setPicToChange(1)
+    }
+  };
+
+  const handlePicChange = (event) => {
+   const files =  event.currentTarget.files
+   const url = URL.createObjectURL(files[0]);
+   setFile(files[0])
+   setPicToChangeURL(url)
+   handleClose()
+  };
+
+  const handlePicChangeSave = (event) => {
+    const formData = new FormData()
+    formData.append("files", file ) 
+    put(`/api/user/${user['_id']}/change/${picToChange === 0 ? "profile": "cover" }`, formData).then(res=>{
+      handlePicChangeCancel()
+      get(`/api/user/${user["_id"]}`).then(res=> {
+      dispatch(userActions.changes(res.data))
+      setUser(res.data)
+      })
+    })
+   
+  };
+
+  const handlePicChangeCancel = (event) => {
+    setPicToChange(null)
+    setPicToChangeURL(null)
+    handleClose()
+   
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const picChange = Boolean(picToChangeURL);
+
   
  
   useEffect(()=>{
@@ -74,7 +108,7 @@ function ContentProfile() {
   },[isLoggedIn])
 
   const handleFollow = () =>{
-    axios.put(`/api/user/${id}/follow`).then(res=>{
+    put(`/api/user/${id}/follow`).then(res=>{
       get(`/api/user/${id}`).then(res=>{
         setUser(res.data)
       })
@@ -98,7 +132,7 @@ const isFollowing = user.followers.filter(u=>{
   return (
     <>
       <Box container mt={1} mb={1}>
-        <img width={"100%"} height="250px" src={`/files/${user.cover_pic}`}/>
+        <img width={"100%"} height="250px" src= {(picChange && picToChange === 1) ? picToChangeURL : `/files/${user.cover_pic}`}/>
         <Box
           sx={{
             position: "relative",
@@ -122,16 +156,42 @@ const isFollowing = user.followers.filter(u=>{
               }}
             >
               <Badge
-                badgeContent={<AddAPhotoOutlined />}
+                badgeContent={picChange 
+                  ? <Stack spacing={1}><Save color="primary" onClick={handlePicChangeSave}/> <Cancel color="secondary" onClick={handlePicChangeCancel} /> </Stack>  
+                : <IconButton onClick={handleAddPics} disabled = {picChange}> <AddAPhotoOutlined id = "addImgIcon"/></IconButton> }
                 sx={{ position: "absolute", bottom: "0px", right: "0px" }}
+                onClick={handleAddPics}
+                aria-describedby= "profileImgPop"
               ></Badge>
               <Avatar
                 sx={{
                   height: "150px",
                   width: "150px",
                 }}
-                src={`/files/${user.profile_pic}`}
+                src={(picChange && picToChange === 0) ? picToChangeURL : `/files/${user.profile_pic}`}
               />
+              <Popover
+                id="profileImgPop"
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+              >
+                
+                <Stack spacing={1}>
+
+                <Button id = "addPpBtn" variant="contained" onClick={handleAddPic}>Add Profile Picture</Button><br/>
+                <Button id = "addCpBtn" variant="contained" onClick={handleAddPic}>Add Cover Picture</Button>
+                </Stack>
+              </Popover>
+             
             </Box>
           </Box>
         </Box>
@@ -315,8 +375,9 @@ const isFollowing = user.followers.filter(u=>{
             </Paper>
           </Grid>
         </Grid>
-
+        
         {posts.length>0 && posts.map((post, i)=>(<Post postData= {post} key={i}/>))}
+        <input hidden onChange={handlePicChange} id = "addPicInput" type="file" accept="image/jpeg, image/png, image/jpg"></input>
       </Box>
     </>
   );
