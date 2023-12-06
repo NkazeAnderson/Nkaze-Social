@@ -32,10 +32,8 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import NewPost from "./NewPost";
-import PostCommentReaction from "./PostComment";
-import { get } from "../utils/BackEndRequests";
+import { get, statics } from "../utils/BackEndRequests";
 import { useSelector } from "react-redux";
-import Carousel from "react-material-ui-carousel";
 import Post from "./Post";
 
 function Content() {
@@ -68,7 +66,7 @@ function Content() {
                 borderStyle: "solid",
                 borderWidth: "1px",
               }}
-              src = {`/files/${user.profile_pic}`}
+              src = {statics(`/files/${user.profile_pic}`)}
             />
           </Stack>
         </Grid>

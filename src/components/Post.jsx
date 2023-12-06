@@ -23,7 +23,7 @@ import { useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import PostCommentReaction from "./PostComment";
 import AddComment from "./AddComment";
-import { get, put } from "../utils/BackEndRequests";
+import { get, put, statics } from "../utils/BackEndRequests";
 
 function Post(props) {
   const [post, setPost] = useState(props.postData);
@@ -72,7 +72,7 @@ function Post(props) {
                   borderStyle: "solid",
                   borderWidth: "1px",
                 }}
-                src={`/files/${post.owner.profile_pic}`}
+                src={statics(`/files/${post.owner.profile_pic}`)}
               />
             </IconButton>
             <Favorite color="primary" fontSize="1" />
@@ -95,7 +95,7 @@ function Post(props) {
                     <CardMedia
                     component="img"
                     title="Nkaze Anderson"
-                    image={`/files/${pic}`}
+                    image={statics(`/files/${pic}`)}
                     height="450"
                     sx={{ objectFit: "fill" }}
                   />

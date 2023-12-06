@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { get, put } from "../utils/BackEndRequests";
+import { get, put, statics } from "../utils/BackEndRequests";
 import { useNavigate, useParams } from "react-router-dom";
 import Post from "./Post";
 import { userActions } from "../store/userSlice";
@@ -132,7 +132,7 @@ const isFollowing = user.followers.filter(u=>{
   return (
     <>
       <Box container mt={1} mb={1}>
-        <img width={"100%"} height="250px" src= {(picChange && picToChange === 1) ? picToChangeURL : `/files/${user.cover_pic}`}/>
+        <img width={"100%"} height="250px" src= {(picChange && picToChange === 1) ? picToChangeURL : statics(`/files/${user.cover_pic}`)}/>
         <Box
           sx={{
             position: "relative",
@@ -168,7 +168,7 @@ const isFollowing = user.followers.filter(u=>{
                   height: "150px",
                   width: "150px",
                 }}
-                src={(picChange && picToChange === 0) ? picToChangeURL : `/files/${user.profile_pic}`}
+                src={(picChange && picToChange === 0) ? picToChangeURL : statics(`/files/${user.profile_pic}`)}
               />
               <Popover
                 id="profileImgPop"

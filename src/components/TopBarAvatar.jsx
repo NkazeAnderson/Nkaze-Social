@@ -14,7 +14,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { userActions } from "../store/userSlice";
-import { get } from "../utils/BackEndRequests";
+import { get, statics } from "../utils/BackEndRequests";
 
 function TopBarAvatar() {
   const [profileMenuEl, setProfileMenuEl] = useState(null);
@@ -51,7 +51,7 @@ function TopBarAvatar() {
         <Avatar
           id="profileButton"
           color="secondary"
-          src={`/files/${user.profile_pic}`}
+          src={statics(`/files/${user.profile_pic}`)}
         >
           {user.first_name}
         </Avatar>
@@ -67,7 +67,7 @@ function TopBarAvatar() {
           <List>
             <ListItem>
               <ListItemAvatar>
-                <Avatar src = {`/files/${user.profile_pic}`} />
+                <Avatar src = {statics(`/files/${user.profile_pic}`)} />
               </ListItemAvatar>
               <ListItemText
                 primary={`${user.first_name} ${user.last_name}`}
