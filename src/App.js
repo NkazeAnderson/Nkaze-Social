@@ -4,6 +4,7 @@ import "./App.css";
 import Login from "./components/LogIn";
 import ScrollContentHome from "./components/ScrollContentHome";
 import ScrollContentProfile from "./components/ScrollContentProfile";
+import ScrollMessenger from "./components/ScrollMessenger";
 import SignUp from "./components/SignUp";
 import Home from "./pages/Home";
 import User from "./pages/User";
@@ -21,6 +22,7 @@ function App() {
         <Route path="/" element={<Home />}>
           <Route index element={<ScrollContentHome />} />
           <Route path="profile/:id" element={<ScrollContentProfile />} />
+          <Route path="messenger/" element={<ScrollMessenger />} />
         </Route>
         <Route path="/user" element={<User />}>
           <Route path="signup" element={<SignUp />} />

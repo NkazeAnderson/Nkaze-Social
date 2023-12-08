@@ -16,6 +16,7 @@ import {
   ListItemText,
   styled,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 const sideList = {
   People: <Person2Outlined />,
   Inbox: <MailOutline />,
@@ -45,11 +46,15 @@ const SideListItem = styled(ListItem)(({ theme }) => ({
   },
 }));
 function MenuList() {
+  const navigate = useNavigate()
+  const handleSideClick = (e) =>{
+    e.currentTarget.getAttribute("dataAttribute") == "Inbox" && navigate("/messenger")
+  }
   return (
     <List dense>
       {Object.entries(sideList).map((entry) => (
         <SideListItem divider>
-          <ListItemButton>
+          <ListItemButton dataAttribute = {entry[0]} onClick={handleSideClick}>
             <ListItemIcon>{entry[1]}</ListItemIcon>
             <ListItemText primary={entry[0]}></ListItemText>
           </ListItemButton>
