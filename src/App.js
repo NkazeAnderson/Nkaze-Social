@@ -15,8 +15,11 @@ const MainContainer = styled(Box)({
   position: "fixed",
 });
 
+
 function App() {
+ 
   return (
+   
     <MainContainer>
       <Routes>
         <Route path="/" element={<Home />}>
@@ -30,6 +33,7 @@ function App() {
         </Route>
       </Routes>
     </MainContainer>
+  
   );
 }
 
