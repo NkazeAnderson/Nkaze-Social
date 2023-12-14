@@ -66,7 +66,7 @@ function Content() {
                 borderStyle: "solid",
                 borderWidth: "1px",
               }}
-              src = {statics(`/files/${user.profile_pic}`)}
+              src = {statics(`${user.profile_pic}`)}
             />
           </Stack>
         </Grid>

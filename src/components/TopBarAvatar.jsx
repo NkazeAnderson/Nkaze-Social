@@ -51,7 +51,7 @@ function TopBarAvatar() {
         <Avatar
           id="profileButton"
           color="secondary"
-          src={statics(`/files/${user.profile_pic}`)}
+          src={statics(`${user.profile_pic}`)}
         >
           {user.first_name}
         </Avatar>
@@ -67,7 +67,7 @@ function TopBarAvatar() {
           <List>
             <ListItem>
               <ListItemAvatar>
-                <Avatar src = {statics(`/files/${user.profile_pic}`)} />
+                <Avatar src = {statics(`${user.profile_pic}`)} />
               </ListItemAvatar>
               <ListItemText
                 primary={`${user.first_name} ${user.last_name}`}

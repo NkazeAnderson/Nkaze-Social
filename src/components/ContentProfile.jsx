@@ -132,7 +132,7 @@ const isFollowing = user.followers.filter(u=>{
   return (
     <>
       <Box container mt={1} mb={1}>
-        <img width={"100%"} height="250px" src= {(picChange && picToChange === 1) ? picToChangeURL : statics(`/files/${user.cover_pic}`)}/>
+        <img width={"100%"} height="250px" src= {(picChange && picToChange === 1) ? picToChangeURL : statics(`${user.cover_pic}`)}/>
         <Box
           sx={{
             position: "relative",
@@ -168,7 +168,7 @@ const isFollowing = user.followers.filter(u=>{
                   height: "150px",
                   width: "150px",
                 }}
-                src={(picChange && picToChange === 0) ? picToChangeURL : statics(`/files/${user.profile_pic}`)}
+                src={(picChange && picToChange === 0) ? picToChangeURL : statics(`${user.profile_pic}`)}
               />
               <Popover
                 id="profileImgPop"

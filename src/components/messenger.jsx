@@ -1,7 +1,7 @@
 import { Send } from '@mui/icons-material'
 import { Avatar, Badge, Box, FilledInput, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Paper, Stack, TextField, Typography } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
-import { get, post } from '../utils/BackEndRequests'
+import { get, post, statics } from '../utils/BackEndRequests'
 import { useSelector } from 'react-redux'
 import { SocketContext } from '../pages/Home'
 
@@ -9,10 +9,15 @@ import { SocketContext } from '../pages/Home'
 function Messenger() {
   const user = useSelector(state=>state.user.user)
   const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState([])
-  const [conversation, setConversation] = useState("")
-  const [conversations, setConversations] = useState([])
+  const [messages, setMessages] = useState(null)
+  const [newmessages, setNewMessages] = useState(false)
+  const [conversation, setConversation] = useState(null)
+  const [conversations, setConversations] = useState(null)
   const socket = useContext(SocketContext)
+  socket.on("newMessage", (c)=>{
+    c != conversation ? setNewMessages(!newmessages) : handleLiveChat(c)
+  })
+
   const handleMessageTyping = (e)=>{
     setMessage(e.currentTarget.value)
 
@@ -20,32 +25,37 @@ function Messenger() {
   const sendMessage = (e)=>{
     const cd = conversations.find(c=>c.id == conversation)
     let destination = ""
-    cd.sender.id == user._id ? destination = cd.reciever.id : destination = cd.sender.id
-
-    post("/api/message", {message, reciever: destination}).then((res)=>{
-      console.log(res.data)
-      socket.emit("sentMessage", destination)
-      setMessage("")
-    })
+    if (cd && message != ""){
+      cd.sender.id == user._id ? destination = cd.reciever.id : destination = cd.sender.id
+      post("/api/message", {message, reciever: destination}).then((res)=>{
+        socket.emit("sentMessage", {reciever: destination, sender: user._id, conversation: conversation})
+        setMessage("")
+      })
+    }
   }
 
   const handleChangeConversation = (e) =>{
     const id = e.currentTarget.getAttribute("data-con-id")
     setConversation(id)
   }
-  useEffect(()=>{
-    get(`/api/conversation/${conversation}`).then((res)=>{
-      setMessages(res.data.messages)
-    })
-  }, [conversation])
 
-  
+  const handleLiveChat = (c) =>{
+    setNewMessages(!newmessages)
+  }
+
   useEffect(()=>{
-    get("/api/conversation").then((res)=>{
+   Boolean(conversation) && get(`/api/conversation/${conversation}`).then((res)=>{
+      setMessages(res.data.messages)
+      get("/api/conversation").then((res)=>{
+        setConversations(res.data.conversations)
+        document.getElementById("message-bottom").scrollIntoView()
+      })
+    })
+    !Boolean(conversation) &&  get("/api/conversation").then((res)=>{
       setConversations(res.data.conversations)
     })
-  }, [])
-
+    
+  }, [conversation, newmessages])
 
   
   return (
@@ -92,17 +102,19 @@ function Messenger() {
         </Box>
         <Box sx={{overflowX: "scroll", height: "100%"}}>
         <List>
-          
-          {conversations.map(c=>(<ListItem data-con-id={c._id} onClick={handleChangeConversation}>
+      
+          { Boolean(conversations)  && conversations.map(c=>(<ListItem id = {"conversation-"+c._id} data-con-id={c._id} onClick={handleChangeConversation}>
             <ListItemAvatar>
-              <Badge badgeContent={c.unread} color="error">
+              <Badge badgeContent={c.unread.length > 0 ? c.unread.length : null} color="error">
                 <Avatar />
               </Badge>
             </ListItemAvatar>
 
             <ListItemText
-              primary={`${c.reciever.first_name} ${c.reciever.last_name}`}
-              secondary={c.messages[0].message}
+              primary={ user._id == c.sender.id ? 
+                `${c.reciever.first_name} ${c.reciever.last_name}`:
+               `${c.sender.first_name} ${c.sender.last_name}`}
+              secondary={c.messages[0] ? c.messages[0].message : null}
               secondaryTypographyProps={{
                 padding: "0px 5px",
                 fontFamily: "Glass Antiqua",
@@ -173,19 +185,25 @@ function Messenger() {
           
           
           
-        { messages && messages.map((m)=>{
-          console.log(m.conversation_id.sender)
-          console.log(user._id)
-          if (m.sender != user._id)  {return <Box sx={{width: "100%", display: "flex", justifyContent: "end"}}>
+        { Boolean(messages)  && messages.map((m)=>{
+          if (m.sender == user._id)  {return <Box sx={{width: "100%", display: "flex", justifyContent: "end"}}>
           <Stack sx={{width: "80%", padding: "10px",}} direction= "row-reverse" spacing={2}>
-            <Avatar></Avatar>
+            <Avatar
+              src = { user._id == m.conversation_id.sender.id ? 
+                statics(m.conversation_id.sender.profile_pic) :
+                statics(m.conversation_id.reciever.profile_pic) }
+            ></Avatar>
             <Typography variant='body1'> {m.message} </Typography>
           </Stack>    
         </Box>}
           else{
             return <Box sx={{width: "100%", display: "flex", justifyContent: "start"}}>
             <Stack sx={{width: "80%", padding: "10px",}} direction= "row" spacing={2}>
-              <Avatar></Avatar>
+              <Avatar
+              src = { user._id != m.conversation_id.sender.id ? 
+                statics(m.conversation_id.sender.profile_pic) :
+                statics(m.conversation_id.reciever.profile_pic) }
+              ></Avatar>
               <Typography variant='body1'> {m.message} </Typography>
             </Stack>    
           </Box>
@@ -194,7 +212,7 @@ function Messenger() {
         }
           
           )}
-    <Box sx={{width: "100%", display: "flex", justifyContent: "start", marginBottom: "80px"}}>
+    <Box id="message-bottom" sx={{width: "100%", display: "flex", justifyContent: "start", marginBottom: "80px"}}>
              
           </Box>
 
@@ -202,12 +220,12 @@ function Messenger() {
         <Box sx={{display: "flex", justifyContent: "center", width: "100%",position: "sticky", bottom: "3px"}}>
         <Box sx={ {backgroundColor: "white", width: "80%", padding: "10px", border: "2px solid blue", borderRadius: "5px" }}>
         <FilledInput 
-        value={message}
+        value={message ? message : ""}
         onChange={handleMessageTyping}
-        placeholder="Post a new post"
+        placeholder="Write a new message"
         multiline
         maxRows={2}
-        id = "postText"
+        id = "messageText"
         endAdornment={
           <InputAdornment position="end">
             <IconButton

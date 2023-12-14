@@ -19,40 +19,32 @@ function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const socket = useRef("") 
-  console.log(sockChange)
  
   
-  socket.current.on && socket.current.on("welcome", (id)=>{
-      console.log("Welcome running again " + socket.current.id)
+  socket.current != "" && socket.current.on("welcome", (id)=>{
       if (sockChange != id){
         sessionStorage.setItem("socketID", id)
-        console.log("Changed to " + sessionStorage.getItem("socketID"))
         setChange(!change)
       }
     })
  
   useEffect(()=>{
    socket.current.emit && socket.current.emit("addUser", user._id)
-   console.log("ADDing to " + sessionStorage.getItem("socketID"))
   }, [change])
 
-  console.log("Home running again")
   useEffect(()=>{
-    console.log("Effect running again")
     if (!logged_in){
       get("/api/auth/check")
       .then((result)=>{
         if  (!result.data.logged_in){
           navigate("/user/login")
           dispatch(userActions.logout())
-          console.log("Error with check No Data Returned")
         }  
         else {
           dispatch(userActions.login(result.data.user))
          socket.current = io("ws://localhost:7000")
         }
       }).catch(err=>{
-        console.log("Error with check")
         navigate("/user/login")
         dispatch(userActions.logout())
       })

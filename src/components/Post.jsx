@@ -72,7 +72,7 @@ function Post(props) {
                   borderStyle: "solid",
                   borderWidth: "1px",
                 }}
-                src={statics(`/files/${post.owner.profile_pic}`)}
+                src={statics(`${post.owner.profile_pic}`)}
               />
             </IconButton>
             <Favorite color="primary" fontSize="1" />
@@ -95,7 +95,7 @@ function Post(props) {
                     <CardMedia
                     component="img"
                     title="Nkaze Anderson"
-                    image={statics(`/files/${pic}`)}
+                    image={statics(`${pic}`)}
                     height="450"
                     sx={{ objectFit: "fill" }}
                   />
