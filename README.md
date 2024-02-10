@@ -37,7 +37,7 @@ Submit your post and see how it updates in feed.
 
 I also added instant messaging features to the application. You can send and receive messages
 
-**Want to have a feel of the website:** [follow this link](https://nkaze-social.onrender.com/).
+**Want to have a feel of the website:** [follow this link to website](https://nkaze-social.onrender.com/).
 
 
 ## TODO LIst
