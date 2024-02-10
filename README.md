@@ -8,10 +8,14 @@ Nkaze social is fully responsive social media app writen with React Js, Material
 I hosted a copy of this site for free on Onrender. 
 The website loads slowly as its a free plan so please bear with, follow the link and hold for about 30s for the docker image to load
 You can create an account or login with this details: 
-Email: testing@yahoo.com
-Password: 12345678
-Also note that the login will be alittle slow because I hosted the ExpressJs backend on Free plan too... Lol... No Money! But works fine
-Please when logged in, Try adding a new post and see the beautiful post component i created! And Yes! We can do better together
+**Email: testing@yahoo.com**
+**Password: 12345678**
+Also note that the login will be alittle slow because I hosted the ExpressJs backend on Free plan too... Lol... No Money! But works fine....
+
+
+Please when logged in, Try adding a new post and see the beautiful post component I created! And Yes! We can do better together.
+
+
 Submit your post and see how it updates in feed.
 I also added instant messaging features to the application. You can send and receive messages
 
